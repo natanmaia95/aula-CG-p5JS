@@ -2,19 +2,20 @@ var originX = 0;
 var originY = 0;
 
 function setPixel(x, y) {
-  // x = floor(x); y = floor(y)
-  x = round(x), y = round(y)
+  x = floor(x); y = floor(y)
+  // x = round(x), y = round(y)
   rect(x*20, y*20, 20, 20)
 }
 
 function drawCircle(centerX, centerY, radius) {
   const squareRadius = radius*radius;
-  for (let curX = centerX - radius - 1; curX <= centerX + radius; curX++) {
-    for (let curY = centerY - radius - 1; curY <= centerY + radius; curY++) {
-      let term1 = curX - centerX
-      let term2 = curY - centerY
-      if (term1*term1 + term2*term2 <= squareRadius) {
-        setPixel(curX, curY);
+  for (let ofX = 0; ofX < radius; ofX++) {
+    for (let ofY = 0; ofY < radius; ofY++) {
+      if (ofX*ofX + ofY*ofY < squareRadius) {
+        setPixel(centerX + ofX, centerY + ofY);
+        setPixel(centerX - ofX, centerY + ofY);
+        setPixel(centerX + ofX, centerY - ofY);
+        setPixel(centerX - ofX, centerY - ofY);
       }
     }
   }
@@ -63,6 +64,11 @@ function draw() {
   
   // let mx = mouseX/20; let my = mouseY/20;
   // let ox = originX/20; let oy = originY/20;
-  let radius = sqrt((ox-mx)*(ox-mx) + (oy-my)*(oy-my))
+  let a = originX - mouseX; let b = originY - mouseY;
+  a /= 20; b /= 20; let radius = sqrt(a*a + b*b)
+  // let radius = sqrt((ox-mx)*(ox-mx) + (oy-my)*(oy-my))
   drawCircle(ox, oy, radius)
+  
+  fill('blue')
+  setPixel(ox, oy)
 }
