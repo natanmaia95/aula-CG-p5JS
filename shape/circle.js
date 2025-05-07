@@ -21,6 +21,33 @@ function drawCircle(centerX, centerY, radius) {
   }
 }
 
+function drawCircleBre(centerX, centerY, radius) {
+  function d(a, b, r) {
+    return a*a + b*b - r*r;
+  }
+  
+  let x = radius; let y = 0;
+  let dM = 3-2*radius;
+  for (y = 0; y<=x; 0) {
+    setPixel(centerX + x, centerY + y);
+    setPixel(centerX - x + 1, centerY + y);
+    setPixel(centerX + x, centerY - y);
+    setPixel(centerX - x + 1, centerY - y);
+    setPixel(centerX + y, centerY + x);
+    setPixel(centerX - y, centerY + x);
+    setPixel(centerX + y, centerY - x + 1);
+    setPixel(centerX - y, centerY - x + 1);
+    
+    y++;
+    if (dM > 0) {
+      x--;
+      dM += 4*(y-x) + 10;
+    } else {
+      dM += 4*y + 6;
+    }
+  }
+}
+
 function setup() {
   createCanvas(400, 400);
 }
@@ -67,7 +94,8 @@ function draw() {
   let a = originX - mouseX; let b = originY - mouseY;
   a /= 20; b /= 20; let radius = sqrt(a*a + b*b)
   // let radius = sqrt((ox-mx)*(ox-mx) + (oy-my)*(oy-my))
-  drawCircle(ox, oy, radius)
+  // drawCircle(ox, oy, radius)
+  drawCircleBre(ox, oy, radius)
   
   fill('blue')
   setPixel(ox, oy)
