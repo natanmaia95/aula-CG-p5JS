@@ -2,15 +2,19 @@ var originX = 0;
 var originY = 0;
 
 function setPixel(x, y) {
+  let dx = x; let dy = y;
   x = floor(x); y = floor(y)
   // x = round(x), y = round(y)
   rect(x*20, y*20, 20, 20)
   // print("set pixel: ", x, y)
+  
+  rect(dx*20-2, dy*20-2, 4, 4)
 }
 
 function drawEllipse(cx, cy, a, b) {
-  const a2 = floor(a*a); const b2 = floor(b*b);
   a = floor(a); b = floor(b);
+  const a2 = floor(a*a); const b2 = floor(b*b);
+  
   
   const errorFunc = function(x, y) {
     return abs(b2*x*x + a2*y*y - a2*b2);
@@ -26,6 +30,17 @@ function drawEllipse(cx, cy, a, b) {
     
     if (errorFunc(curX+1, curY) > errorFunc(curX, curY)) curY -= 1;
     curX += 1;
+  }
+  
+  curX = floor(a); curY = 0;
+  for (curY = 0 ; curY <= b; ) {
+    setPixel(cx + curX, cy + curY);
+    // setPixel(cx + curX, cy - curY);
+    // setPixel(cx - curX, cy + curY);
+    // setPixel(cx - curX, cy - curY);
+    
+    if (errorFunc(curX, curY+1) > errorFunc(curX, curY)) curX -= 1;
+    curY += 1;
   }
 }
 
